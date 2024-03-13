@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player for MinhNgan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/777ef1d5c10e1a4d1f6103313804f0ae~c5_100x100.jpeg?lk3s=a5d48078&x-expires=1710421200&x-signature=tn9XiZBSR3id7TFYPNgv6wOlngY%3D">
+</head>
+<body>
+    <div class="player">
+        <!-- Dashboard -->
+        <div class="dashboard">
+          <!-- Header -->
+          <header>
+            <h4>Đang phát:</h4>
+            <h2>Tinh vệ</h2>
+          </header>
+      
+          <!-- CD -->
+          <div class="cd">
+            <div class="cd-thumb" style="background-image: url('./assets/img/tinh_ve.jpg')">
+            </div>
+          </div>
+      
+          <!-- Control -->
+          <div class="control">
+            <div class="btn btn-repeat">
+              <i class="fas fa-redo"></i>
+            </div>
+            <div class="btn btn-prev">
+              <i class="fas fa-step-backward"></i>
+            </div>
+            <div class="btn btn-toggle-play">
+              <i class="fas fa-pause icon-pause"></i>
+              <i class="fas fa-play icon-play"></i>
+            </div>
+            <div class="btn btn-next">
+              <i class="fas fa-step-forward"></i>
+            </div>
+            <div class="btn btn-random">
+              <i class="fas fa-random"></i>
+            </div>
+          </div>
+      
+          <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+      
+          <audio id="audio" src=""></audio>
+        </div>
+      
+        <!-- Playlist -->
+        <div class="playlist">
+          <div class="song">
+            <div class="thumb" style="background-image: url('./assets/img/tinh_ve.jpg')">
+            </div>
+            <div class="body">
+              <h3 class="title">Tinh vệ</h3>
+              <p class="author">JAPANDEE</p>
+            </div>
+            <div class="option">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+          <div class="song">
+            <div class="thumb" style="background-image: url('./assets/img/noi_nay_co_anh.jpg')">
+            </div>
+            <div class="body">
+              <h3 class="title">Nơi này có anh</h3>
+              <p class="author">Sơn Tùng M-TP</p>
+            </div>
+            <div class="option">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+          <div class="song">
+            <div class="thumb" style="background-image: url('./assets/img/tuy_am.jpg')">
+            </div>
+            <div class="body">
+              <h3 class="title">Tuý âm</h3>
+              <p class="author">Xesi x Masew x Nhatnguyen</p>
+            </div>
+            <div class="option">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="./main.js"></script>
+</body>
+</html>
