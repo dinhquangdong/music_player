@@ -1,6 +1,8 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
+const title = $("title");
+const iconImage = $("#icon-image");
 const cd = $(".cd");
 const heading = $("header h2");
 const cdThumbnail = $(".cd-thumb");
@@ -10,12 +12,15 @@ const playBtn = $(".btn-toggle-play");
 const prevBtn = $(".btn-prev");
 const nextBtn = $(".btn-next");
 const randomBtn = $(".btn-random");
+const repeatBtn = $(".btn-repeat");
 const progress = $("#progress");
+const playlist = $(".playlist");
 
 const app = {
     currentIndex: 0,
     isPlaying: false,
     isRandom: false,
+    isRepeat: false,
     songs: [
         {
             name: "Tinh vệ",
@@ -80,10 +85,10 @@ const app = {
     ],
 
     render: function() {
-        const htmls = this.songs.map(song => {
+        const htmls = this.songs.map((song, index) => {
             return `
-            <div class="song">
-                <div class="thumb" 
+            <div class="song ${index === this.currentIndex? 'active': ''}" data-index=${index}>
+                <div class="thumb"
                     style="background-image: url('${song.image}')">
                 </div>
                 <div class="body">
@@ -97,7 +102,7 @@ const app = {
             `
         });
 
-        $(".playlist").innerHTML = htmls.join("");
+        playlist.innerHTML = htmls.join("");
     },
 
     defineProperties: function() {
@@ -171,6 +176,8 @@ const app = {
             else
                 _this.prevSong();
             audio.play();
+            _this.render();
+            _this.scrollToActiveSong();
         }
 
         // Khi chuyển sang bài hát tiếp theo
@@ -180,6 +187,8 @@ const app = {
             else
                 _this.nextSong();
             audio.play();
+            _this.render();
+            _this.scrollToActiveSong();
         };
 
         // Khi bấm vào nút random
@@ -188,11 +197,37 @@ const app = {
             randomBtn.classList.toggle("active", _this.isRandom);
         };
 
-        // Khi kết thúc bài hát, thì tự động sang bài mới
+        // Khi kết thúc bài hát, thì tự động sang bài mới, nếu có repeat thì phát lại
         audio.onended = () => {
             setTimeout(() => {
-                nextBtn.click();
-            }, 2000);
+                if(_this.isRepeat){
+                    audio.play();
+                }
+                else
+                    nextBtn.click();
+            }, 1000);
+        }
+
+        // Khi ấn vào nút repeat
+        repeatBtn.onclick = () => {
+            _this.isRepeat = !_this.isRepeat;
+            repeatBtn.classList.toggle("active", _this.isRepeat);
+        };
+
+        // Khi ấn vào bài hát thì phát bài đó
+        playlist.onclick = (e) => {
+            const songNode = e.target.closest(".song:not(.active)")
+            if(songNode|| e.target.closest(".option")){
+                // Xử lý khi click vào song
+                if(e.target.closest(".song:not(.active)")){
+                    _this.currentIndex = Number(songNode.getAttribute("data-index"));
+                    _this.loadCurrentSong();
+                    _this.render();
+                    audio.play();
+                }
+
+                // Xử lý khi click vào option
+            }
         }
     },
 
@@ -200,6 +235,8 @@ const app = {
         heading.innerText = this.currentSong.name;
         cdThumbnail.style.backgroundImage = `url("${this.currentSong.image}")`;
         audio.src = this.currentSong.path;
+        title.innerText = this.currentSong.name;
+        iconImage.setAttribute("href", this.currentSong.image);
     },
 
     prevSong: function() {
@@ -220,9 +257,18 @@ const app = {
         let newIndex;
         do{
             newIndex = Math.floor(Math.random() * this.songs.length);
-        }while(newIndex !== this.currentIndex)
+        }while(newIndex === this.currentIndex)
         this.currentIndex = newIndex;
         this.loadCurrentSong();
+    },
+
+    scrollToActiveSong: function() {
+        setTimeout(() => {
+            $(".song.active").scrollIntoView({
+                behavior: "smooth",
+                block: "end"
+            });
+        }, 200);
     },
     
     start: function() {
