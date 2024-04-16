@@ -2,7 +2,6 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const title = $("title");
-const iconImage = $("#icon-image");
 const cd = $(".cd");
 const heading = $("header h2");
 const cdThumbnail = $(".cd-thumb");
@@ -236,7 +235,6 @@ const app = {
         cdThumbnail.style.backgroundImage = `url("${this.currentSong.image}")`;
         audio.src = this.currentSong.path;
         title.innerText = this.currentSong.name;
-        iconImage.setAttribute("href", this.currentSong.image);
     },
 
     prevSong: function() {
